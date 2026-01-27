@@ -1,11 +1,12 @@
 extends CharacterBody2D
 
 const SPEED_WALK = 100.0
-const SPEED = 300.0
+const SPEED = 250.0
 const JUMP_VELOCITY = -450.0
 var current_speed = SPEED_WALK
 var health = 5
 var alive = true
+var damage_area = null
 @onready var anim = $AnimatedSprite2D
 
 func _physics_process(delta: float) -> void:
@@ -39,15 +40,29 @@ func _physics_process(delta: float) -> void:
 			$AnimatedSprite2D.flip_h = false
 		if velocity.y > 0:
 			anim.play("fall")
+		if $Inv.time_left == 0:
+			if damage_area != null:
+				take_damage()
+				$Inv.start()
 		
 	if health <= 0:
 		death()
 		
 	move_and_slide()
 	
+func take_damage():
+	health-= 1
+	
 func death():
 	alive = false
 	#anim.play("dead")
-	#await anim.animation_finished
+	#await anim.animation_finishedda
 	queue_free()
 	get_tree().change_scene_to_file("res://scene/menu/menu.tscn")
+
+func _on_hit_box_body_entered(body: Node2D) -> void:
+	damage_area = body
+
+func _on_hit_box_body_exited(body: Node2D) -> void:
+	if damage_area == body:
+		damage_area = null

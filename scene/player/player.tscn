@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://bl5kka3lhk30y"]
+[gd_scene format=3 uid="uid://bl5kka3lhk30y"]
 
 [ext_resource type="Texture2D" uid="uid://dn84jalwwj1la" path="res://assets/Player/Attack_1.png" id="1_oypl4"]
 [ext_resource type="Script" uid="uid://2jx0jxs3v4mb" path="res://scene/player/player.gd" id="1_qjg4s"]
@@ -464,23 +464,40 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="player" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qjg4s"]
+size = Vector2(18.5, 5)
+
+[node name="player" type="CharacterBody2D" unique_id=210664722]
 script = ExtResource("1_qjg4s")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=963602443]
 shape = SubResource("CapsuleShape2D_gh87g")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1936480609]
 position = Vector2(-1, -27)
 scale = Vector2(0.6640625, 0.6640625)
 sprite_frames = SubResource("SpriteFrames_v7pse")
-animation = &"dead"
+animation = &"idle"
 autoplay = "idle"
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=461359314]
 zoom = Vector2(2.4, 2.4)
 process_callback = 0
 limit_left = 0
 limit_bottom = 1086
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
+
+[node name="HitBox" type="Area2D" parent="." unique_id=17886351]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=1733650221]
+position = Vector2(0, 13)
+shape = SubResource("RectangleShape2D_qjg4s")
+
+[node name="Inv" type="Timer" parent="." unique_id=751736653]
+one_shot = true
+
+[connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
+[connection signal="body_exited" from="HitBox" to="." method="_on_hit_box_body_exited"]
