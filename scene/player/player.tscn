@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://crltg7lbfy1mn" path="res://assets/Player/Walk.png" id="10_fspl2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gh87g"]
+height = 46.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eeiom"]
 atlas = ExtResource("1_oypl4")
@@ -261,7 +262,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_one",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -467,17 +468,21 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qjg4s"]
 size = Vector2(18.5, 5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1wtbu"]
+size = Vector2(38, 17)
+
 [node name="player" type="CharacterBody2D" unique_id=210664722]
 script = ExtResource("1_qjg4s")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=963602443]
+position = Vector2(0, -8)
 shape = SubResource("CapsuleShape2D_gh87g")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1936480609]
 position = Vector2(-1, -27)
 scale = Vector2(0.6640625, 0.6640625)
 sprite_frames = SubResource("SpriteFrames_v7pse")
-animation = &"idle"
+animation = &"attack_one"
 autoplay = "idle"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=461359314]
@@ -499,5 +504,15 @@ shape = SubResource("RectangleShape2D_qjg4s")
 [node name="Inv" type="Timer" parent="." unique_id=751736653]
 one_shot = true
 
+[node name="Attach" type="Area2D" parent="." unique_id=1292853068]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionAttach" type="CollisionShape2D" parent="Attach" unique_id=890911201]
+position = Vector2(29, -12.5)
+shape = SubResource("RectangleShape2D_1wtbu")
+disabled = true
+
+[connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]
 [connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
 [connection signal="body_exited" from="HitBox" to="." method="_on_hit_box_body_exited"]
