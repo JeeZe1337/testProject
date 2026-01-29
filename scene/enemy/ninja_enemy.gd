@@ -57,7 +57,5 @@ func death():
 	queue_free()
 
 func _on_damage_area_entered(area: Area2D) -> void:
-	if area.name == "Attach":
-		player.damage_enemy = true
-	if player.damage_enemy == true and player.anim_damage_enemy == true:
-			death()
+	if area.name == "Attach" and player.anim_damage_enemy == true:
+		death()

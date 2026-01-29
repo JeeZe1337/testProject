@@ -9,7 +9,6 @@ var health = 5
 var alive = true
 var damage_area = null
 var attach = false
-var damage_enemy = false
 var anim_damage_enemy = false
 @onready var anim = $AnimatedSprite2D
 @onready var ninjaEnemy = $"../../enemy/ninja_enemy"
